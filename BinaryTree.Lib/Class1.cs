@@ -1,12 +1,12 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 
-namespace BinaryTreeLib;
+namespace BinaryTree.Lib;
 
-public class BinaryTrees
+public class BinaryTree
 {
     private Node _root;
-    public BinaryTrees()
+    public BinaryTree()
     {
         _root = null;
     }
@@ -25,18 +25,28 @@ public class BinaryTrees
 
     public bool Contains(int n)
     {
-        return Contains(_root, n);
+        return _root != null && _root.Contains(n);
     }
 
-    public override string ToString()
+
+    private string ToString(Node root)
+    {
+        if (root == null)
+        {
+            return "";
+        }
+        return ToString(root.Left) + root.Value.ToString() + ToString(root.Right);
+    }
+
+    public string orderedString()
     {
         return ToString(_root);
     }
-
-    public int sumTotal()
+    public int Sum()
     {
-        return sumTotal(_root);
+        return _root != null ? _root.sum() : 0;
     }
+
 }
 
 
@@ -112,5 +122,20 @@ internal class Node
             sum += Right.sum();
         }
         return sum;
+    }
+
+    public string orderedString()
+    {
+        string result = "";
+        if (Left != null)
+        {
+            result += Left.orderedString();
+        }
+        result += Value.ToString();
+        if (Right != null)
+        {
+            result += Right.orderedString();
+        }
+        return result.Trim();
     }
 }
